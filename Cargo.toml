@@ -3,6 +3,7 @@ name = "async-broadcast"
 version = "0.1.0"
 authors = ["Zeeshan Ali <zeeshanak@gnome.org>"]
 edition = "2018"
+license = "Apache-2.0 OR MIT"
 
 [dependencies]
 async-channel = "1.6.1"
