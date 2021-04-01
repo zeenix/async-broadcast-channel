@@ -1,3 +1,29 @@
+//! An MPMC broadcast library.
+//!
+//! While provides a nice and simple multi-producer-multi-consumer channel, this library provides
+//! broadcasting feature, where every message sent on the channel is received by every reeceiver.
+//! Since the ownership of the data is transfered, the data is cloned for each receiver and hence
+//! [`Clone`] trait is required on the type of the data being transmitted.
+//!
+//! ### Examples
+//!
+//! ```
+//! let (sender1, receiver1) = async_broadcast::unbounded();
+//! let sender2 = sender1.clone();
+//! let receiver2 = receiver1.clone();
+//!
+//! sender1.try_send(1).unwrap();
+//! sender2.try_send(2).unwrap();
+//!
+//! assert_eq!(receiver1.try_recv(), Ok(1));
+//! assert_eq!(receiver1.try_recv(), Ok(2));
+//!
+//! assert_eq!(receiver2.try_recv(), Ok(1));
+//! assert_eq!(receiver2.try_recv(), Ok(2));
+//! ```
+//!
+//! [`async_channel`]: https://crates.io/crates/async-channel 
+
 use std::sync::{Arc, RwLock};
 use async_channel::{RecvError, SendError, TryRecvError, TrySendError};
 
@@ -93,25 +119,4 @@ fn broadcast_channel<T>(cap: Option<usize>) -> (Sender<T>, Receiver<T>) {
             cap,
         },
     )
-}
-
-#[cfg(test)]
-mod tests {
-    use crate as async_broadcast;
-
-    #[test]
-    fn test() {
-        let (sender1, receiver1) = async_broadcast::unbounded();
-        let sender2 = sender1.clone();
-        let receiver2 = receiver1.clone();
-
-        sender1.try_send(1).unwrap();
-        sender2.try_send(2).unwrap();
-
-        assert_eq!(receiver1.try_recv(), Ok(1));
-        assert_eq!(receiver1.try_recv(), Ok(2));
-
-        assert_eq!(receiver2.try_recv(), Ok(1));
-        assert_eq!(receiver2.try_recv(), Ok(2));
-    }
 }
