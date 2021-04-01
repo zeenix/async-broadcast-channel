@@ -23,7 +23,7 @@
 //! assert_eq!(receiver2.try_recv(), Ok(2));
 //! ```
 //!
-//! [`async_channel`]: https://crates.io/crates/async-channel 
+//! [`async_channel`]: https://crates.io/crates/async-channel
 
 use std::sync::{Arc, RwLock};
 use async_channel::{RecvError, SendError, TryRecvError, TrySendError};
