@@ -1,3 +1,9 @@
+# Abondoned effort
+
+This project is abondoned in favour of [broadcast-channel](https://github.com/smol-rs/broadcast-channel).
+
+---
+
 # async-broadcast
 
 While [`async_channel`] provides a nice and simple multi-producer-multi-consumer channel, this
